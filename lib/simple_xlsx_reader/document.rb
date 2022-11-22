@@ -144,4 +144,17 @@ module SimpleXlsxReader
       end
     end
   end
+
+  class DocumentBuffer < Document
+    attr_reader :buffer
+
+    def initialize(buffer)
+      @buffer = buffer
+    end
+
+    def sheets
+      @sheets ||= BufferLoader.new(buffer).init_sheets
+    end
+  end
+
 end

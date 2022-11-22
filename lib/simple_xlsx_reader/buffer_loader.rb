@@ -1,11 +1,11 @@
-# frozen_string_literal: true
+frozen_string_literal: true
 
 module SimpleXlsxReader
-  class Loader < Struct.new(:file)
+  class BufferLoader < Struct.new(:file) do
     attr_accessor :shared_strings, :sheet_parsers, :sheet_toc, :style_types, :base_date
 
     def init_sheets
-      FileZipReader.new(
+      BufferZipReader.new(
         file: file,
         loader: self
       ).read
@@ -19,12 +19,12 @@ module SimpleXlsxReader
       end
     end
 
-    FileZipReader = ZipReader.new(:file, :loader, keyword_init: true) do
+    BufferZipReader = ZipReader.new(:file, :loader, keyword_init: true) do
       attr_reader :zip
 
       def initialize(*args)
         super
-        @zip = SimpleXlsxReader::Zip.open(file)
+        @zip = SimpleXlsxReader::Zip.open_buffer(buffer)
       end
     end
   end

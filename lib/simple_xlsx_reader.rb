@@ -45,5 +45,12 @@ module SimpleXlsxReader
       Document.new(file_path).tap(&:sheets)
     end
     alias parse open
+
+    def open_buffer(buffer)
+      DocumentBuffer.new(buffer).tap(&:sheets)
+    end
+    alias parse_buffer open_buffer
   end
+
+
 end
